@@ -66,6 +66,7 @@ jobs:
         run: |
           ./gradlew :metadata-service:war:build -x test --parallel
           mv ./metadata-service/war/build/libs/war.war .
+          ls -a
 
       - name: Build and Optionally Push
         uses: docker/build-push-action@v5
