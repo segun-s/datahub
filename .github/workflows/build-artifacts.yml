@@ -76,5 +76,5 @@ jobs:
             GH_ACCESS_TOKEN=${{ secrets.GH_ACCESS_TOKEN }}
           context: .
           file: ./${{ env.APP_PATH }}/Dockerfile
-          push: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true }}
+          push: true
           tags: ${{ env.ORG_NAME }}/${{ env.APP_NAME }}:${{ github.event.inputs.imageTag }}, ${{ env.ORG_NAME }}/${{ env.APP_NAME }}:${{ env.SHORT_SHA }}
