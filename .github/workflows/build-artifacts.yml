@@ -42,13 +42,14 @@ jobs:
 
       - name: Get AppName and Path
         run: |
-          if [ ${{ github.event.inputs.appName }} == "datahub-gms" ]; then
+          if [ "${{ github.event.inputs.appName }}" == "datahub-gms" ]; then
             echo "APP_NAME=datahub-gms" >> $GITHUB_ENV
-            echo "APP_PATH=docker/datahub-gms >> $GITHUB_ENV
-          elif [  ${{ github.event.inputs.appName }} == "datahub-ingestion" ]; then
+            echo "APP_PATH=docker/datahub-gms" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.appName }}" == "datahub-ingestion" ]; then
             echo "APP_NAME=datahub-ingestion" >> $GITHUB_ENV
-            echo "APP_PATH=docker/datahub-ingestion >> $GITHUB_ENV
+            echo "APP_PATH=docker/datahub-ingestion" >> $GITHUB_ENV
           fi
+
 
       - name: Build and Optionally Push
         uses: docker/build-push-action@v5
