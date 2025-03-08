@@ -74,7 +74,7 @@ jobs:
           build-args: |
             GH_ACCESS_USER=${{ secrets.GH_ACCESS_USER }}
             GH_ACCESS_TOKEN=${{ secrets.GH_ACCESS_TOKEN }}
-          context: ./${{ env.APP_PATH }}
+          context: .
           file: ./${{ env.APP_PATH }}/Dockerfile
           push: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true }}
           tags: ${{ env.ORG_NAME }}/${{ env.APP_NAME }}:${{ github.event.inputs.imageTag }}, ${{ env.ORG_NAME }}/${{ env.APP_NAME }}:${{ env.SHORT_SHA }}
