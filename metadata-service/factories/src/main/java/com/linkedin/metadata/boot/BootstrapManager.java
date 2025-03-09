@@ -27,6 +27,7 @@ public class BootstrapManager {
     List<BootstrapStep> stepsToExecute = _bootSteps;
 
     for (int i = 0; i < stepsToExecute.size(); i++) {
+      log.info("Bootstrap Step func!");
       final BootstrapStep step = stepsToExecute.get(i);
       if (step.getExecutionMode() == BootstrapStep.ExecutionMode.BLOCKING) {
         log.info(
@@ -35,6 +36,8 @@ public class BootstrapManager {
             stepsToExecute.size(),
             step.name());
         try {
+          log.info("step: {}", step);
+          log.info("opContext: {}", systemOperationContext);
           step.execute(systemOperationContext);
         } catch (Exception e) {
           log.error(
