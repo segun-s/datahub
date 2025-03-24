@@ -44,7 +44,7 @@ RUN apt-get update && apt-get install -y -qq maven
 USER datahub
 COPY ./docker/datahub-ingestion/pyspark_jars.sh .
 
-COPY ./airflow-plugin ./airflow-plugin
+COPY ./metadata-ingestion-modules/airflow-plugin ./airflow-plugin
 
 RUN sed -i \
       "s/extras_require *= *{.*}/extras_require={'plugin-v2':['apache-airflow>=2.0']}/" \
