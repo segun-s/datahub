@@ -44,10 +44,14 @@ RUN apt-get update && apt-get install -y -qq maven
 USER datahub
 COPY ./docker/datahub-ingestion/pyspark_jars.sh .
 
-RUN --mount=type=cache,target=/datahub-ingestion/.cache/uv,uid=1000,gid=1000 \
-    UV_LINK_MODE=copy uv pip install -e ".[base,all]" "./airflow-plugin[plugin-v2]" && \
-    ./pyspark_jars.sh && \
-    datahub --version
+COPY ./airflow-plugin ./airflow-plugin
+
+RUN sed -i \
+      "s/extras_require *= *{.*}/extras_require={'plugin-v2':['apache-airflow>=2.0']}/" \
+      ./airflow-plugin/setup.py \
+  && UV_LINK_MODE=copy uv pip install -e ".[base,all]" "./airflow-plugin[plugin-v2]" \
+  && ./pyspark_jars.sh \
+  && datahub --version
 
 FROM base AS full-install
 
