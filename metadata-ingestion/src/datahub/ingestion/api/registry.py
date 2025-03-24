@@ -168,6 +168,7 @@ class PluginRegistry(Generic[T]):
             fn()
             return self.get(real_key)
 
+        print(f"Mapping: {self._mapping}")
         if key not in self._mapping:
             raise KeyError(f"Did not find a registered class for {key}")
 
