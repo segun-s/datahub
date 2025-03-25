@@ -46,9 +46,9 @@ COPY ./docker/datahub-ingestion/pyspark_jars.sh .
 
 COPY --chown=datahub ./metadata-ingestion-modules/airflow-plugin ./airflow-plugin
 
-RUN sed -Ei '/extras_require *= *\{/a \
-    '\''plugin-v2'\'': ['\''apache-airflow>=2.0'\''],' \
-    ./airflow-plugin/setup.py \
+RUN sed -Ei \
+      "s|extras_require\s*=\s*\{[^}]*\}|extras_require={'plugin-v2':['apache-airflow>=2.0']}|" \
+      ./airflow-plugin/setup.py \
   && UV_LINK_MODE=copy uv pip install -e ".[base,all]" "./airflow-plugin[plugin-v2]" \
   && ./pyspark_jars.sh \
   && datahub --version
