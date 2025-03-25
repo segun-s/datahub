@@ -915,50 +915,41 @@ See the [DataHub docs](https://datahubproject.io/docs/metadata-ingestion).
     install_requires=list(base_requirements | framework_common),
     extras_require={
         "base": list(framework_common),
-        "all": list(framework_common),
+        **{
+            plugin: list(
+                framework_common
+                | (
+                    plugin_common
+                    if plugin
+                    not in {
+                        "airflow",
+                        "datahub-rest",
+                        "datahub-kafka",
+                        "sync-file-emitter",
+                        "sql-parser",
+                        "iceberg",
+                        "feast",
+                    }
+                    else set()
+                )
+                | dependencies
+            )
+            for (plugin, dependencies) in plugins.items()
+        },
+        "all": list(
+            framework_common.union(
+                *[
+                    requirements
+                    for plugin, requirements in plugins.items()
+                    if plugin not in all_exclude_plugins
+                ]
+            )
+        ),
+        "cloud": ["acryl-datahub-cloud"],
+        "dev": list(dev_requirements),
+        "lint": list(lint_requirements),
+        "testing-utils": list(test_api_requirements),  # To import `datahub.testing`
+        "integration-tests": list(full_test_dev_requirements),
+        "debug": list(debug_requirements),
     },
 )
-
-
-
-'''
-extras_require={
-    "base": list(framework_common),
-    **{
-        plugin: list(
-            framework_common
-            | (
-                plugin_common
-                if plugin
-                not in {
-                    "airflow",
-                    "datahub-rest",
-                    "datahub-kafka",
-                    "sync-file-emitter",
-                    "sql-parser",
-                    "iceberg",
-                    "feast",
-                }
-                else set()
-            )
-            | dependencies
-        )
-        for (plugin, dependencies) in plugins.items()
-    },
-    "all": list(
-        framework_common.union(
-            *[
-                requirements
-                for plugin, requirements in plugins.items()
-                if plugin not in all_exclude_plugins
-            ]
-        )
-    ),
-    "cloud": ["acryl-datahub-cloud"],
-    "dev": list(dev_requirements),
-    "lint": list(lint_requirements),
-    "testing-utils": list(test_api_requirements),  # To import `datahub.testing`
-    "integration-tests": list(full_test_dev_requirements),
-    "debug": list(debug_requirements),
-},
-'''
