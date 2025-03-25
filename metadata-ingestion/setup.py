@@ -915,6 +915,11 @@ See the [DataHub docs](https://datahubproject.io/docs/metadata-ingestion).
     install_requires=list(base_requirements | framework_common),
     extras_require={
         "base": list(framework_common),
+        "all": list(framework_common),
+    },
+    '''
+    extras_require={
+        "base": list(framework_common),
         **{
             plugin: list(
                 framework_common
@@ -945,6 +950,7 @@ See the [DataHub docs](https://datahubproject.io/docs/metadata-ingestion).
                 ]
             )
         ),
+    '''
         "cloud": ["acryl-datahub-cloud"],
         "dev": list(dev_requirements),
         "lint": list(lint_requirements),
