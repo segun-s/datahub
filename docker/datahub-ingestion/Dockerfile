@@ -52,7 +52,7 @@ COPY --chown=datahub ./metadata-ingestion-modules/airflow-plugin ./airflow-plugi
 #  && datahub --version
 
 # ← Install local metadata-ingestion here
-RUN UV_LINK_MODE=copy uv pip install -e /metadata-ingestion \
+RUN UV_LINK_MODE=copy uv pip install -e "/metadata-ingestion[base]" \
   && UV_LINK_MODE=copy uv pip install apache-airflow>=2.0 \
   && UV_LINK_MODE=copy uv pip install -e "./airflow-plugin[base,all]" \
   && ./pyspark_jars.sh \
