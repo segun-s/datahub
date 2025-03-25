@@ -917,6 +917,7 @@ See the [DataHub docs](https://datahubproject.io/docs/metadata-ingestion).
         "base": list(framework_common),
         "all": list(framework_common),
     },
+
     '''
     extras_require={
         "base": list(framework_common),
@@ -950,7 +951,6 @@ See the [DataHub docs](https://datahubproject.io/docs/metadata-ingestion).
                 ]
             )
         ),
-    '''
         "cloud": ["acryl-datahub-cloud"],
         "dev": list(dev_requirements),
         "lint": list(lint_requirements),
@@ -958,4 +958,5 @@ See the [DataHub docs](https://datahubproject.io/docs/metadata-ingestion).
         "integration-tests": list(full_test_dev_requirements),
         "debug": list(debug_requirements),
     },
+    '''
 )
