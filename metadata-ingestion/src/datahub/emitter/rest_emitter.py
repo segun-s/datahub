@@ -476,6 +476,8 @@ class DataHubRestEmitter(Closeable, Emitter):
     ) -> int:
         if _DATAHUB_EMITTER_TRACE:
             logger.debug(f"Attempting to emit MCP batch of size {len(mcps)}")
+            # debug log
+            logger.info(f"MCPs: {mcps}")
 
         for mcp in mcps:
             ensure_has_system_metadata(mcp)
@@ -592,6 +594,7 @@ class DataHubRestEmitter(Closeable, Emitter):
             if async_flag is not None:
                 payload_dict["async"] = "true" if async_flag else "false"
 
+            logger.info(f"Payload: {payload_dict}")
             payload = json.dumps(payload_dict)
             self._emit_generic(url, payload)
 
@@ -625,6 +628,7 @@ class DataHubRestEmitter(Closeable, Emitter):
             curl_command,
         )
         try:
+            logger.info(f"URL: {url}")
             response = self._session.post(url, data=payload)
             response.raise_for_status()
             return response
