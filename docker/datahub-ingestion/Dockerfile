@@ -46,7 +46,14 @@ COPY ./docker/datahub-ingestion/pyspark_jars.sh .
 
 COPY --chown=datahub ./metadata-ingestion-modules/airflow-plugin ./airflow-plugin
 
-RUN UV_LINK_MODE=copy uv pip install apache-airflow>=2.0 \
+#RUN UV_LINK_MODE=copy uv pip install apache-airflow>=2.0 \
+#  && UV_LINK_MODE=copy uv pip install -e "./airflow-plugin[base,all]" \
+#  && ./pyspark_jars.sh \
+#  && datahub --version
+
+# ← Install local metadata-ingestion here
+RUN UV_LINK_MODE=copy uv pip install -e /metadata-ingestion \
+  && UV_LINK_MODE=copy uv pip install apache-airflow>=2.0 \
   && UV_LINK_MODE=copy uv pip install -e "./airflow-plugin[base,all]" \
   && ./pyspark_jars.sh \
   && datahub --version
